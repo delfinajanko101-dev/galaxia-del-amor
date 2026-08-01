@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Nuestra Galaxia del Amor ✨</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle at center,#31105f,#120021,#000);
+color:white;
+}
+
+canvas{
+position:absolute;
+inset:0;
+}
+
+.nebula{
+position:absolute;
+width:900px;
+height:900px;
+border-radius:50%;
+background:radial-gradient(circle,#ff4dd280,transparent 65%);
+filter:blur(70px);
+animation:spin 35s linear infinite;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+.card{
+position:relative;
+z-index:2;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+padding:40px;
+border-radius:25px;
+text-align:center;
+max-width:750px;
+box-shadow:0 0 30px #ff66cc66;
+}
+
+h1{
+font-size:52px;
+margin-bottom:20px;
+text-shadow:0 0 20px #ff77dd;
+}
+
+#message{
+font-size:25px;
+line-height:1.8;
+min-height:150px;
+}
+
+.heart{
+font-size:75px;
+margin-top:20px;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+50%{transform:scale(1.2);}
+}
+
+.floatingHeart{
+position:absolute;
+font-size:24px;
+animation:rise linear forwards;
+pointer-events:none;
+}
+
+@keyframes rise{
+0%{
+transform:translateY(0) scale(.5);
+opacity:0;
+}
+20%{
+opacity:1;
+}
+100%{
+transform:translateY(-110vh) scale(1.6);
+opacity:0;
+}
+}
+
+button{
+margin-top:30px;
+padding:14px 28px;
+font-size:18px;
+border:none;
+border-radius:30px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.08);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+<div class="nebula"></div>
+
+<div class="card">
+<h1>🌌 Nuestra Galaxia del Amor 💖</h1>
+
+<div id="message"></div>
+
+<div class="heart">❤️</div>
+
+<button onclick="lanzarCorazones()">
+✨ Toca aquí ✨
+</button>
+</div>
+
+<script>
+const texto="Desde el primer momento en que llegaste a mi vida, mi universo cambió para siempre. Entre millones de estrellas, siempre elegiría encontrarte a ti. Eres mi lugar favorito, mi paz y mi felicidad. Te amo hoy, mañana y por toda la eternidad. 💖";
+
+let i=0;
+
+function escribir(){
+if(i<texto.length){
+document.getElementById("message").innerHTML+=texto.charAt(i);
+i++;
+setTimeout(escribir,45);
+}
+}
+
+escribir();
+
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+resize();
+addEventListener("resize",resize);
+
+const stars=[];
+
+for(let i=0;i<250;i++){
+stars.push({
+x:Math.random()*innerWidth,
+y:Math.random()*innerHeight,
+r:Math.random()*2,
+a:Math.random()
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.fillStyle="rgba(255,255,255,"+s.a+")";
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
+
+s.a+=Math.random()*0.04-0.02;
+
+if(s.a<0.2)s.a=0.2;
+if(s.a>1)s.a=1;
+});
+
+requestAnimationFrame(draw);
+}
+
+draw();
+
+function lanzarCorazones(){
+
+for(let i=0;i<35;i++){
+
+const h=document.createElement("div");
+
+h.className="floatingHeart";
+
+h.innerHTML=Math.random()>0.5?"💖":"❤️";
+
+h.style.left=Math.random()*100+"vw";
+
+h.style.bottom="-40px";
+
+h.style.animationDuration=(Math.random()*3+3)+"s";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),6000);
+
+}
+
+}
+</script>
+
+</body>
+</html>
